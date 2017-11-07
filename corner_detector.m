@@ -10,4 +10,5 @@ function [cimg] = corner_detector(img)
 % cimg is a corner matrix
 
 % Write Your Code Here
+cimg = detectHarrisFeatures(img);
 end
