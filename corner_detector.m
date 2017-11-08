@@ -12,6 +12,4 @@ img_gray = rgb2gray(img);
 % Find the corner points
 cimg = detectHarrisFeatures(img_gray);
 
-% Return the corner metric matrix
-cimg = cimg.Metric;
 end

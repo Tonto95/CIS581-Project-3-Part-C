@@ -1,5 +1,5 @@
 % File name: feat_desc.m
-% Author:
+% Author: Ahmed Zahra, Anthony Owusu
 % Date created:
 
 function [descs] = feat_desc(img, x, y)

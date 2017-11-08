@@ -9,6 +9,36 @@ function [y, x, rmax] = anms(cimg, max_pts)
 % (OUTPUT) y: N?1 matrix representing the row coordinates of the corners
 % (OUTPUT) rmax: Supression radius used to obtain max_pts corners
 
-% Write Your Own Code Here
+c_robust = 0.9;
 
+N = size(cimg.Metric,1);
+
+% Create an array the size of the number of points
+points = cimg.Location;
+points_min_radius = zeros(N,1);
+
+% Initialize the minimum radius as infinite
+r_min = Inf;
+
+% Calculate radius
+get_r = @(x1,x2) sqrt((x1(1,1) - x2(1,1))^2 + (x1(1,2) - x2(1,2))^2);
+
+for i=1:N
+    for j=1:N
+        % Skip the iteration if we are comparing the same point
+        if (i == j)
+            continue
+        end
+        
+        % Check if the magnitude the current point is larger
+        if (cimg.Metric(i) <= cimg.Metric(j)*c_robust)
+            % Calculate the radius and check if it is less than the current
+            % minimum
+            curr_r = get_r(points(i,:), points(j,:));
+            if (curr_r < 
+        end
+    end
 end
+y = points(:,2);
+x = points(:,1);
+rmax = 0;
