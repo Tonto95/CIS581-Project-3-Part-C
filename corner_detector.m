@@ -1,14 +1,17 @@
 % File name: corner_detector.m
-% Author:
+% Author: Ahmed Zahra, Anthony Owusu
 % Date created:
 
 function [cimg] = corner_detector(img)
-% Input:
-% img is an image
+% (INPUT) img: H?W matrix representing the gray scale input frame
+% (OUTPUT) cimg: H?W matrix representing the corner-metric matrix for the image
 
-% Output:
-% cimg is a corner matrix
+% Convert img from rgb 2 grayscale
+img_gray = rgb2gray(img);
 
-% Write Your Code Here
-cimg = detectHarrisFeatures(img);
+% Find the corner points
+cimg = detectHarrisFeatures(img_gray);
+
+% Return the corner metric matrix
+cimg = cimg.Metric;
 end

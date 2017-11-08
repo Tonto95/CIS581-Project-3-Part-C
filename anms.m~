@@ -10,7 +10,5 @@ function [y, x, rmax] = anms(cimg, max_pts)
 % (OUTPUT) rmax: Supression radius used to obtain max_pts corners
 
 % Write Your Own Code Here
-[H, W] = size(cimg);
-
 
 end
