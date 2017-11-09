@@ -18,12 +18,9 @@ nRANSAC = 1000;
 e = thresh; % Pixels
 min_inliers = 10;
 
-bestH = zeros(3);
-
 N = size(x1,1);
 
 count = 0;
-
 for i=1:nRANSAC
     rand_indices = zeros(4,1);
     
@@ -62,14 +59,5 @@ for i=1:nRANSAC
     end
     
     % Check the number of inliers is greater the max 
-    if currentCount > count
-        bestH = H;
-        count = currentCount;
-    end
 end
-
-for i=1:N
-    
-end
-
 end

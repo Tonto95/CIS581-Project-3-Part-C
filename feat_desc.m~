@@ -21,16 +21,17 @@ for i=1:N
     p = round(points(i,:));
     
     % Get the 40x40 block around the point
-    block = img_padded(p(2):p(2)+40,p(1):p(1)+40);
+    block = (p(2)-20:p(2)+20, p(1)-20:p(1)+20);
     count = 1;
-    for j=1:5:40
-        for k=1:5:40
+    for j=1:41
+        for k=1:5:41
             descs(count,i) = block(j,k);
             count = count + 1;
         end
     end
     
-    descs(:,i) = (descs(:,i) - mean(descs(:,i)))/std(descs(:,i));
+    desc()
+    
 end
 
 end
