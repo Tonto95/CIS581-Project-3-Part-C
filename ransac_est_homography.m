@@ -16,7 +16,7 @@ function [H, inlier_ind] = ransac_est_homography(x1, y1, x2, y2, thresh)
 % Set the RANSAC constants
 nRANSAC = 1000;
 e = thresh; % Pixels
-min_inliers = 10;
+% min_inliers = 10;
 
 bestH = zeros(3);
 
@@ -56,7 +56,7 @@ for i=1:nRANSAC
         % Calculate the distance between the estimated and the actual point
         e_i = sqrt((lhs(1) - x2(j))^2 + (lhs(2) - y2(j))^2);
         
-        if e_i < e
+        if (e_i < e)
             currentCount = currentCount + 1;
         end
     end
@@ -68,8 +68,19 @@ for i=1:nRANSAC
     end
 end
 
+inlier_ind = zeros(N,1);
+H = bestH;
+
 for i=1:N
-    
+    lhs = H * [x1(i); y1(i); 1];
+    lhs = lhs / lhs(3);
+        
+    % Calculate the distance between the estimated and the actual point
+	e_i = sqrt((lhs(1) - x2(i))^2 + (lhs(2) - y2(i))^2);
+        
+    if (e_i < e)
+        inlier_ind(i) = 1;
+    end
 end
 
 end
