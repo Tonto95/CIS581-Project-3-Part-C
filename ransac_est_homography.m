@@ -83,4 +83,11 @@ for i=1:N
     end
 end
 
+x1_i = x1(inlier_ind == 1);
+y1_i = y1(inlier_ind == 1);
+x2_i = x2(inlier_ind == 1);
+y2_i = y2(inlier_ind == 1);
+
+% Use all the inliers to calculate the homography
+H = est_homography(x1_i, y1_i, x2_i, y2_i);
 end
