@@ -1,16 +1,15 @@
 % File name: feat_match.m
-% Author:
+% Author: Ahmed Zahra, Anthony Owusu
 % Date created:
 
 function [match] = feat_match(descs1, descs2)
-% Input:
-%   descs1 is a 64x(n1) matrix of double values
-%   descs2 is a 64x(n2) matrix of double values
+% (INPUT) descs1: 64?N1 matrix representing the corner descriptors of the 
+% first frame
+% (INPUT) descs2: 64?N2 matrix representing the corner descriptors of the 
+% second frame
+% (OUTPUT) match: N1 ? 1 vector where match1 points to the index of the 
+% descriptor in descs2 that matches with the feature i in descriptor descs1. 
+% If the match is not found, match1 = ?1
 
-% Output:
-%   match is n1x1 vector of integers where m(i) points to the index of the
-%   descriptor in p2 that matches with the descriptor p1(:,i).
-%   If no match is found, m(i) = -1
-
-% Write Your Code Here
+[idx,d] = knnsearch(descs1, descs2);
 end
