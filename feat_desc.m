@@ -3,15 +3,11 @@
 % Date created:
 
 function [descs] = feat_desc(img, x, y)
-% Input:
-%    img = double (height)x(width) array (grayscale image) with values in the
-%    range 0-255
-%    x = nx1 vector representing the column coordinates of corners
-%    y = nx1 vector representing the row coordinates of corners
+% (INPUT) img: H ?W matrix representing the gray scale input image frame
+% (INPUT) x: N ?1 matrix representing the column coordinates of the corners
+% (INPUT) y: N ?1 matrix representing the row coordinates of the corners
+% (OUTPUT) descs: 64?N matrix, with column i being the 64-dimensional descriptor (8?8
+% linearized grid) computed at the location (xi, yi) in img
 
-% Output:
-%   descs = 64xn matrix of double values with column i being the 64 dimensional
-%   descriptor computed at location (xi, yi) in im
 
-% Write Your Code Here
 end
