@@ -22,16 +22,8 @@ N = size(match(match~=-1),1);
 p1 = zeros(N,2);
 p2 = p1;
 idx = 1;
-
 for i =1:N
     if(match(i) ~= -1)
-        p1(idx,1) = x1(idx);
-        p2(idx,2) = y1(idx);
-        idx = idx + 1;
+        p1(i,:
     end
 end
-
-idx = match(match ~= -1);
-p2 = [x2(idx) y2(idx)];
-
-[H, inlier_ind] = ransac_est_homography(p1(:,1),p1(:,2),p2(:,1),p2(:,2), 0.5);
