@@ -43,8 +43,8 @@ for i = 1:m
             
             for k =1:size(m,1)
                 if(m(k) ~= -1)
-                    p1(idx,1) = x1(i);
-                    p1(idx,2) = y1(i);
+                    p1(idx,1) = x1(k);
+                    p1(idx,2) = y1(k);
                     idx = idx + 1;
                 end
             end
@@ -54,7 +54,7 @@ for i = 1:m
             H{j - 1} = H{j-1} / H{j-1}(3,3);
         end
     end
-    tform = H{j-1};
+    tform = projective2d(H{j-1});
     pic = imwarp(im{j - 1}, tform);
     imshow(pic);
     
