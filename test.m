@@ -16,9 +16,9 @@ cim2 = corner_detector(im2);
 descs1 = feat_desc(rgb2gray(im1), x1, y1);
 descs2 = feat_desc(rgb2gray(im2), x2, y2);
 
-imshow(im2);
-hold on
-plot(x2,y2, 'rx');
+% imshow(im2);
+% hold on
+% plot(x2,y2, 'rx');
 match = feat_match(descs1, descs2);
 
 N = size(match(match~=-1),1);
@@ -28,8 +28,8 @@ idx = 1;
 
 for i =1:size(match,1)
     if(match(i) ~= -1)
-        p1(idx,1) = x1(idx);
-        p1(idx,2) = y1(idx);
+        p1(idx,1) = x1(i);
+        p1(idx,2) = y1(i);
         idx = idx + 1;
     end
 end
