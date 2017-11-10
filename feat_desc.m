@@ -3,10 +3,10 @@
 % Date created:
 
 function [descs] = feat_desc(img, x, y)
-% (INPUT) img: H ?W matrix representing the gray scale input image frame
-% (INPUT) x: N ?1 matrix representing the column coordinates of the corners
-% (INPUT) y: N ?1 matrix representing the row coordinates of the corners
-% (OUTPUT) descs: 64?N matrix, with column i being the 64-dimensional descriptor (8?8
+% (INPUT) img: H xW matrix representing the gray scale input image frame
+% (INPUT) x: Nx1 matrix representing the column coordinates of the corners
+% (INPUT) y: Nx1 matrix representing the row coordinates of the corners
+% (OUTPUT) descs: 64xN matrix, with column i being the 64-dimensional descriptor (8?8
 % linearized grid) computed at the location (xi, yi) in img
 
 N = size(x,1);
@@ -15,7 +15,7 @@ descs = zeros(64,N);
 
 img_padded = padarray(img, [20,20], 0, 'both');
 
-points = [x y];
+points = [y x];
 
 for i=1:N
     p = round(points(i,:));

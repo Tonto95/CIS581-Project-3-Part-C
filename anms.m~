@@ -9,27 +9,26 @@ function [y, x, rmax] = anms(cimg, max_pts)
 % (OUTPUT) y: Nx1 matrix representing the row coordinates of the corners
 % (OUTPUT) rmax: Supression radius used to obtain max_pts corners
 
-N = size(cimg(cimg ~= 0),1);
+N = size(cimg(cimg ~= 0));
 points = zeros(N,2);
 metric = zeros(N,1);
-idx = 1;
-for i=1:size(cimg,1)
+
+for i=size(cimg,1)
     for j = 1:size(cimg,2)
-        
         if (cimg(i,j) ~= 0)
-            points(idx, 1) = i;
-            points(idx, 2) = j;
-            metric(idx) = cimg(i,j);
-            idx = idx + 1;
+            
         end
-        
     end
 end
-
 c_robust = 0.9;
 
+N = size(cimg.Metric,1);
+
 % Create an array the size of the number of points
+points = cimg.Location;
 points_min_radius = zeros(N,1);
+
+metric = cimg.Metric;
 
 % Initialize the minimum radius as infinite
 r_min = Inf;
@@ -68,8 +67,8 @@ end
 
 % Sort the array of points accordingly
 points = points(order,:);
-y = points(1:max_pts,2);
-x = points(1:max_pts,1);
+y = points(1:max_pts,1);
+x = points(1:max_pts,2);
 
 % Find the max supression radius
 rmax = pts_min_r_sorted(max_pts); % ??
