@@ -11,7 +11,7 @@ function [match] = feat_match(descs1, descs2)
 % descriptor in descs2 that matches with the feature i in descriptor descs1.
 % If the match is not found, match1 = ?1
 
-RATIO_VALUE = 0.6; 
+RATIO_VALUE = 0.75; 
 
 %Iterate through all points to find the euclidian distance
 n = size(descs2, 2);
@@ -40,7 +40,7 @@ for i = 1:size(descs2, 2)
         end
     end
     ratio = st_min/nd_min;
-    if (st_min/nd_min < 0.6)
+    if (st_min/nd_min < RATIO_VALUE)
         match(i) = st_index;
     end
 end

@@ -4,8 +4,8 @@ close all
 
 max_pts = 100;
 
-im1 = imread('test7.JPG');
-im2 = imread('test8.JPG');
+im1 = imread('test3.JPG');
+im2 = imread('test4.JPG');
 
 cim1 = corner_detector(im1);
 cim2 = corner_detector(im2);
@@ -37,4 +37,5 @@ end
 idx = match(match ~= -1);
 p2 = [x2(idx) y2(idx)];
 
-[H, inlier_ind] = ransac_est_homography(p1(:,1),p1(:,2),p2(:,1),p2(:,2), 0.5);
+[H, inlier_ind] = ransac_est_homography(p1(:,1),p1(:,2),p2(:,1),p2(:,2), 1);
+H = H / H(3,3);

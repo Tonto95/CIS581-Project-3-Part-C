@@ -43,10 +43,10 @@ for i=1:nRANSAC
     y2_i = y2(rand_indices);
     
     % Estimate the homography matrix for the selected points
-    H = est_homography(x1_i, y1_i, x2_i, y2_i);
+    H = est_homography(x2_i, y2_i, x1_i, y1_i);
     
     currentCount = 0;
-    
+    H = H / H(3,3);
     % Loop through all the points and determine the number of points tha
     % are satisfied by the calculated homography matrix
     for j =1:N
@@ -73,6 +73,7 @@ H = bestH;
 
 for i=1:N
     lhs = H * [x1(i); y1(i); 1];
+    H = H / H(3,3);
     lhs = lhs / lhs(3);
         
     % Calculate the distance between the estimated and the actual point
@@ -89,5 +90,5 @@ x2_i = x2(inlier_ind == 1);
 y2_i = y2(inlier_ind == 1);
 
 % Use all the inliers to calculate the homography
-H = est_homography(x1_i, y1_i, x2_i, y2_i, 0.5);
+H = est_homography(x1_i, y1_i, x2_i, y2_i);
 end
