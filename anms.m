@@ -68,8 +68,8 @@ end
 
 % Sort the array of points accordingly
 points = points(order,:);
-y = points(1:max_pts,2);
-x = points(1:max_pts,1);
+y = points(1:max_pts,1);
+x = points(1:max_pts,2);
 
 % Find the max supression radius
 rmax = pts_min_r_sorted(max_pts); % ??

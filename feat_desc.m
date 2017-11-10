@@ -21,7 +21,7 @@ for i=1:N
     p = round(points(i,:));
     
     % Get the 40x40 block around the point
-    block = img_padded(p(2):p(2)+40,p(1):p(1)+40);
+    block = img_padded(p(1):p(1)+40,p(2):p(2)+40);
     
     % Apply gaussian bluring on the block
     block = imgaussfilt(block);
