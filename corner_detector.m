@@ -19,7 +19,6 @@ mat = zeros(H,W);
 locations = round(cimg.Location);
 strengths = cimg.Metric;
 
-% mat(locations) = strengths;
 for i=1:size(locations,1)
     mat(locations(i,1), locations(i,2)) = strengths(i);
 end
