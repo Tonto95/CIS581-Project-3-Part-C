@@ -73,6 +73,7 @@ H = bestH;
 
 for i=1:N
     lhs = H * [x1(i); y1(i); 1];
+    H = H / norm(H);
     lhs = lhs / lhs(3);
         
     % Calculate the distance between the estimated and the actual point
@@ -82,7 +83,7 @@ for i=1:N
         inlier_ind(i) = 1;
     end
 end
-% 
+
 x1_i = x1(inlier_ind == 1);
 y1_i = y1(inlier_ind == 1);
 x2_i = x2(inlier_ind == 1);
@@ -90,5 +91,4 @@ y2_i = y2(inlier_ind == 1);
 
 % Use all the inliers to calculate the homography
 H = est_homography(x1_i, y1_i, x2_i, y2_i);
-H = H / H(3,3);
 end

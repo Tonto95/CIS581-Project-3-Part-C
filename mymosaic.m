@@ -54,7 +54,10 @@ for i = 1:m
             H{j - 1} = H{j-1} / H{j-1}(3,3);
         end
     end
-    tform = projective2d(H{j-1});
+    tform = projective2d(H{j-1}');
+%     pic = imwarp(im{j - 1}, tform);
+%     tform = maketform('affine',[1 0 0; 0 1 0; 50 100 1]);
+%     tform = affine2d([0.1 0.1 0; 0.5 1 0; 0 0 1]);
     pic = imwarp(im{j - 1}, tform);
     imshow(pic);
     

@@ -16,9 +16,9 @@ cim2 = corner_detector(im2);
 descs1 = feat_desc(rgb2gray(im1), x1, y1);
 descs2 = feat_desc(rgb2gray(im2), x2, y2);
 
-% imshow(im2);
-% hold on
-% plot(x2,y2, 'rx');
+imshow(im1);
+hold on
+plot(x1,y1, 'rx');
 match = feat_match(descs1, descs2);
 
 N = size(match(match~=-1),1);
@@ -38,4 +38,3 @@ idx = match(match ~= -1);
 p2 = [x2(idx) y2(idx)];
 
 [H, inlier_ind] = ransac_est_homography(p1(:,1),p1(:,2),p2(:,1),p2(:,2), 1);
-H = H / H(3,3);
