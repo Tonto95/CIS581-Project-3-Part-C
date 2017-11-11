@@ -2,7 +2,7 @@
 clear all
 close all
 
-max_pts = 100;
+max_pts = 300;
 
 im1 = imread('test3.JPG');
 im2 = imread('test4.JPG');
@@ -37,4 +37,6 @@ end
 idx = match(match ~= -1);
 p2 = [x2(idx) y2(idx)];
 
-[H, inlier_ind] = ransac_est_homography(p1(:,1),p1(:,2),p2(:,1),p2(:,2), 1);
+[H, inlier_ind] = ransac_est_homography(p1(:,1),p1(:,2),p2(:,1),p2(:,2), 0.5);
+% tforms = estimateGeometricTransform(p2, p1,...
+%         'projective', 'Confidence', 99.9, 'MaxNumTrials', 2000);

@@ -55,7 +55,6 @@ for i = 1:m
     
 end
 
-
 tform = projective2d(H{j-1}');
 [xlim, ylim] = outputLimits(tform, [1 size(im{j},2)], [1 size(im{j},1)]);
 xmin = min([1; xlim']);
@@ -81,5 +80,10 @@ mask = imwarp(true(size(im{j},1),size(im{j},2)), tform, 'OutputView', panoramaVi
 % Overlay the warpedImage onto the panorama.
 mosaic = step(blender, panorama, pic, mask);
     
-imshow(mosaic);
+%     pic = imwarp(im{j}, tform, 'OutputView');
+%     mosaic = [im{j-1} pic];
+    imshow(mosaic);
+% imshow(im2);
+% hold on
+% plot(x2,y2, 'rx');
 end
