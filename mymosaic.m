@@ -3,13 +3,10 @@
 % Date created:
 
 function [img_mosaic] = mymosaic(img_input)
-% Input:
-%   img_input is a cell array of color images (HxWx3 uint8 values in the
-%   range [0,255])
-%
-% Output:
-% img_mosaic is the output mosaic
-% Test script
+% (INPUT) img_input: M ?N cell where M is the total number of frames in the 
+% video and N is three if the number of input videos is 3
+% (OUTPUT) img_mosaic: M ?1 cell vector representing the stitched image 
+% mosaic for every frame
 
 MAX_PTS = 100;
 
@@ -55,9 +52,6 @@ for i = 1:m
         end
     end
     tform = projective2d(H{j-1}');
-%     pic = imwarp(im{j - 1}, tform);
-%     tform = maketform('affine',[1 0 0; 0 1 0; 50 100 1]);
-%     tform = affine2d([0.1 0.1 0; 0.5 1 0; 0 0 1]);
     pic = imwarp(im{j - 1}, tform);
     imshow(pic);
     
