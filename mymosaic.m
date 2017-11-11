@@ -55,31 +55,45 @@ for i = 1:m
     
 end
 
+% Store the size of a single image
+imageSize = size(im{1});
 
-tform = projective2d(H{j-1}');
-[xlim, ylim] = outputLimits(tform, [1 size(im{j},2)], [1 size(im{j},1)]);
-xmin = min([1; xlim']);
-ymin = min([1; ylim']);
-xmax = max([size(im{j},2); xlim']);
-ymax = max([size(im{j},1); ylim']);
+% Create a cell to store the transform between image 1 and image i
+tform{1} = projective2d(eye(3));
+
+% Fill out the cell array with the transforms and determine the extents of
+% the panorama
+for i=1:size(H,1)
+    tform{i+1} = projective2d(H{i}');
+    [xlim(i,:), ylim(i,:)] = outputLimits(tform{i+1}, [1 imageSize(2)], [1 imageSize(1)]);
+end
+
+xmin = min([1; xlim(:)]);
+ymin = min([1; ylim(:)]);
+xmax = max([imageSize(2); xlim(:)]);
+ymax = max([imageSize(1); ylim(:)]);
     
 width = round(xmax - xmin);
 height = round(ymax - ymin);
-    
-panorama = zeros([height width 3], 'like', im{j});
+
+% Initialize the final panorama as an array of zeros
+panorama = zeros([height width 3], 'like', im{1});
 
 blender = vision.AlphaBlender('Operation', 'Binary mask', ...
 	'MaskSource', 'Input port');
     
 panoramaView = imref2d([height width], [xmin xmax], [ymin ymax]);
-    
-pic = imwarp(im{j}, tform, 'OutputView', panoramaView);
 
-% Generate a binary mask.
-mask = imwarp(true(size(im{j},1),size(im{j},2)), tform, 'OutputView', panoramaView);
+for i=1:size(im,1)
+    pic = imwarp(im{i}, tform{i}, 'OutputView', panoramaView);
 
-% Overlay the warpedImage onto the panorama.
-mosaic = step(blender, panorama, pic, mask);
-    
+    % Generate a binary mask.
+    mask = imwarp(true(size(im{j},1),size(im{j},2)), tform{i}, 'OutputView', panoramaView);
+
+    % Overlay the warpedImage onto the panorama.
+    panorama = step(blender, panorama, pic, mask);
+end
+
+mosaic = panorama;
 imshow(mosaic);
 end
