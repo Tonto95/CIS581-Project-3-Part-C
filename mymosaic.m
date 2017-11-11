@@ -3,15 +3,17 @@
 % Date created:
 
 function [img_mosaic] = mymosaic(img_input)
-% (INPUT) img_input: M ?N cell where M is the total number of frames in the
+% (INPUT) img_input: MxN cell where M is the total number of frames in the
 % video and N is three if the number of input videos is 3
-% (OUTPUT) img_mosaic: M ?1 cell vector representing the stitched image
+% (OUTPUT) img_mosaic: Mx1 cell vector representing the stitched image
 % mosaic for every frame
 
 MAX_PTS = 100;
 
 m = size(img_input, 1);
 n = size(img_input, 2);
+
+mid = ceil(n/2);
 
 for i = 1:m
     im = cell(n, 1);
@@ -47,7 +49,7 @@ for i = 1:m
             end
             idx = m(m ~= -1);
             p2 = [x2(idx) y2(idx)];
-            if (j > ceil(n/2))
+            if (j == mid)
                 [H{j-1}, inlier_ind] = ransac_est_homography(p2(:,1),p2(:,2),p1(:,1),p1(:,2), 1);
             else
                 [H{j-1}, inlier_ind] = ransac_est_homography(p1(:,1),p1(:,2),p2(:,1),p2(:,2), 1);
@@ -63,8 +65,8 @@ end
 imageSize = size(im{1});
 
 % Create a cell to store the transform between image 1 and image i
-tform{ceil(n/2)} = projective2d(eye(3));
-[xlim(ceil(n/2),:), ylim(ceil(n/2),:)] = outputLimits(tform{ceil(n/2)}, [1 imageSize(2)], [1 imageSize(1)]);
+tform{mid} = projective2d(eye(3));
+[xlim(mid,:), ylim(mid,:)] = outputLimits(tform{mid}, [1 imageSize(2)], [1 imageSize(1)]);
 
 % Fill out the cell array with the transforms and determine the extents of
 % the panorama
