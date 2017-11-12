@@ -1,10 +1,10 @@
 % vid1=VideoReader('vid1.MOV');
 % vid2=VideoReader('vid3.MOV');
 % vid3=VideoReader('vid4.MOV');
-% vid1=VideoReader('myvid1.MOV');
-% vid2=VideoReader('myvid2.MOV');
-% vid3=VideoReader('myvid3.MOV');
-% % % 
+% vid1=VideoReader('Video1.mp4');
+% vid2=VideoReader('Video2.mp4');
+% vid3=VideoReader('Video3.mp4');
+% % % % 
 % images = cell(1, 1);
 % i = 0;
 % while(hasFrame(vid1) && hasFrame(vid2) && hasFrame(vid3))

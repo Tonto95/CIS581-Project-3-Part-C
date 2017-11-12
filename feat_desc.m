@@ -24,7 +24,7 @@ for i=1:N
     block = img_padded(p(1):p(1)+40,p(2):p(2)+40);
     
     % Apply gaussian bluring on the block
-    block = imgaussfilt(block,1);
+%     block = imgaussfilt(block,0.5);
     
     count = 1;
     for j=1:5:40

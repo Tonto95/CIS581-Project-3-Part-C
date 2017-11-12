@@ -8,7 +8,7 @@ function [img_mosaic] = mymosaic(img_input)
 % (OUTPUT) img_mosaic: Mx1 cell vector representing the stitched image
 % mosaic for every frame
 
-MAX_PTS = 450;
+MAX_PTS = 300;
 
 m = size(img_input, 1);
 n = size(img_input, 2);
@@ -16,6 +16,7 @@ img_mosaic = cell(m, 1);
 
 mid = ceil(n/2);
 
+H = cell(n -1, 1);
 for i = 1:30
     im = cell(n, 1);
     cim = cell(n, 1);
@@ -23,13 +24,14 @@ for i = 1:30
     y = cell(n, 1);
     descs = cell(n, 1);
     match = cell(n - 1, 1);
-    H = cell(n -1, 1);
     for j = 1:n
-        im{j} = img_input{i, j};
-        cim{j} = corner_detector(im{j});
-        [x{j},y{j},~] = anms(cim{j}, MAX_PTS);
-        descs{j} = feat_desc(rgb2gray(im{j}), x{j}, y{j});
-        if j > 1
+        if(i == 1)
+            im{j} = img_input{i, j};
+            cim{j} = corner_detector(im{j});
+            [x{j},y{j},~] = anms(cim{j}, MAX_PTS);
+            descs{j} = feat_desc(rgb2gray(im{j}), x{j}, y{j});
+        end
+        if j > 1 && i == 1
             match{j - 1} = feat_match(descs{j - 1}, descs{j});
             m = match{j-1};
             N = size(m(m~=-1),1);
@@ -51,9 +53,9 @@ for i = 1:30
             idx = m(m ~= -1);
             p2 = [x2(idx) y2(idx)];
             if (j == mid)
-                [H{j-1}, inlier_ind] = ransac_est_homography(p2(:,1),p2(:,2),p1(:,1),p1(:,2), 0.5);
+                [H{j-1}, inlier_ind] = ransac_est_homography(p2(:,1),p2(:,2),p1(:,1),p1(:,2), 0.8);
             else
-                [H{j-1}, inlier_ind] = ransac_est_homography(p1(:,1),p1(:,2),p2(:,1),p2(:,2), 0.5);
+                [H{j-1}, inlier_ind] = ransac_est_homography(p1(:,1),p1(:,2),p2(:,1),p2(:,2), 0.8);
             end
             H{j - 1} = H{j-1} / H{j-1}(3,3);
         end
