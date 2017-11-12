@@ -17,7 +17,7 @@ img_mosaic = cell(m, 1);
 mid = ceil(n/2);
 
 H = cell(n -1, 1);
-for i = 1:30
+for i = 1:size(img_input,1)
     im = cell(n, 1);
     cim = cell(n, 1);
     x = cell(n, 1);
@@ -60,46 +60,40 @@ for i = 1:30
             H{j - 1} = H{j-1} / H{j-1}(3,3);
         end
     end
-    % Store the size of a single image
-%     imageSize = size(im{1});
-    xlim = [];
-    ylim = [];
-    tform = cell(1,1);
-    
-    % Create a cell to store the transform between image 1 and image i
-    
-    
-    % Fill out the cell array with the transforms and determine the extents of
-    % the panorama
-    for l=1:size(im,1)
-        imageSize = size(im{l});
-        if l > mid
-            tform{l} = projective2d(H{l-1}');
-            [xlim(l,:), ylim(l,:)] = outputLimits(tform{l}, [1 imageSize(2)], [1 imageSize(1)]);
-        elseif l == mid
-            tform{mid} = projective2d(eye(3));
-            [xlim(mid,:), ylim(mid,:)] = outputLimits(tform{mid}, [1 imageSize(2)], [1 imageSize(1)]);
-        else
-            tform{l} = projective2d(H{l}');
-            [xlim(l,:), ylim(l,:)] = outputLimits(tform{l}, [1 imageSize(2)], [1 imageSize(1)]);
-        end
+    if (i == 1)
+        
+        % Store the size of a single image
+        xlim = [];
+        ylim = [];
+        tform = cell(1,1);
 
+        % Create a cell to store the transform between image 1 and image i
+
+
+        % Fill out the cell array with the transforms and determine the extents of
+        % the panorama
+        for l=1:size(im,1)
+            imageSize = size(im{l});
+            if l > mid
+                tform{l} = projective2d(H{l-1}');
+                [xlim(l,:), ylim(l,:)] = outputLimits(tform{l}, [1 imageSize(2)], [1 imageSize(1)]);
+            elseif l == mid
+                tform{mid} = projective2d(eye(3));
+                [xlim(mid,:), ylim(mid,:)] = outputLimits(tform{mid}, [1 imageSize(2)], [1 imageSize(1)]);
+            else
+                tform{l} = projective2d(H{l}');
+                [xlim(l,:), ylim(l,:)] = outputLimits(tform{l}, [1 imageSize(2)], [1 imageSize(1)]);
+            end
+
+        end
+        xmin = min([1; xlim(:)]);
+        ymin = min([1; ylim(:)]);
+        xmax = max([imageSize(2); xlim(:)]);
+        ymax = max([imageSize(1); ylim(:)]);
+
+        width = round(xmax - xmin);
+        height = round(ymax - ymin);
     end
-    xmin = min([1; xlim(:)]);
-    ymin = min([1; ylim(:)]);
-    xmax = max([imageSize(2); xlim(:)]);
-    ymax = max([imageSize(1); ylim(:)]);
-    
-    width = round(xmax - xmin);
-    height = round(ymax - ymin);
-%     if width > xMAX
-%         width  = xMAX;
-%     end
-%     if height > yMAX
-%         height  = xMAX;
-%     end
-%     
-    
     % Initialize the final panorama as an array of zeros
     panorama = zeros([height width 3], 'like', im{1});
     
