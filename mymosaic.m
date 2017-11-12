@@ -25,8 +25,8 @@ for i = 1:size(img_input,1)
     descs = cell(n, 1);
     match = cell(n - 1, 1);
     for j = 1:n
+        im{j} = img_input{i, j};
         if(i == 1)
-            im{j} = img_input{i, j};
             cim{j} = corner_detector(im{j});
             [x{j},y{j},~] = anms(cim{j}, MAX_PTS);
             descs{j} = feat_desc(rgb2gray(im{j}), x{j}, y{j});
