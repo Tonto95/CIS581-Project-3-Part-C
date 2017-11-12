@@ -40,7 +40,7 @@ for i = 1:size(descs2, 2)
         end
     end
     ratio = st_min/nd_min;
-    if (st_min/nd_min < RATIO_VALUE)
+    if (ratio < RATIO_VALUE)
         match(i) = st_index;
     end
 end

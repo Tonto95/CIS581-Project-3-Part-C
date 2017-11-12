@@ -8,7 +8,7 @@ function [img_mosaic] = mymosaic(img_input)
 % (OUTPUT) img_mosaic: Mx1 cell vector representing the stitched image
 % mosaic for every frame
 
-MAX_PTS = 100;
+MAX_PTS = 450;
 
 m = size(img_input, 1);
 n = size(img_input, 2);
@@ -16,7 +16,7 @@ img_mosaic = cell(m, 1);
 
 mid = ceil(n/2);
 
-for i = 1:m
+for i = 1:30
     im = cell(n, 1);
     cim = cell(n, 1);
     x = cell(n, 1);
@@ -51,35 +51,38 @@ for i = 1:m
             idx = m(m ~= -1);
             p2 = [x2(idx) y2(idx)];
             if (j == mid)
-                [H{j-1}, inlier_ind] = ransac_est_homography(p2(:,1),p2(:,2),p1(:,1),p1(:,2), 1);
+                [H{j-1}, inlier_ind] = ransac_est_homography(p2(:,1),p2(:,2),p1(:,1),p1(:,2), 0.5);
             else
-                [H{j-1}, inlier_ind] = ransac_est_homography(p1(:,1),p1(:,2),p2(:,1),p2(:,2), 1);
+                [H{j-1}, inlier_ind] = ransac_est_homography(p1(:,1),p1(:,2),p2(:,1),p2(:,2), 0.5);
             end
             H{j - 1} = H{j-1} / H{j-1}(3,3);
         end
     end
     % Store the size of a single image
-    imageSize = size(im{1});
+%     imageSize = size(im{1});
     xlim = [];
     ylim = [];
     tform = cell(1,1);
+    
     % Create a cell to store the transform between image 1 and image i
-    tform{mid} = projective2d(eye(3));
-    [xlim(mid,:), ylim(mid,:)] = outputLimits(tform{mid}, [1 imageSize(2)], [1 imageSize(1)]);
+    
     
     % Fill out the cell array with the transforms and determine the extents of
     % the panorama
-    for l=1:size(H,1)
-        if l >= ceil(n/2)
-            tform{l+1} = projective2d(H{l}');
-            [xlim(l,:), ylim(l,:)] = outputLimits(tform{l+1}, [1 imageSize(2)], [1 imageSize(1)]);
-            continue;
+    for l=1:size(im,1)
+        imageSize = size(im{l});
+        if l > mid
+            tform{l} = projective2d(H{l-1}');
+            [xlim(l,:), ylim(l,:)] = outputLimits(tform{l}, [1 imageSize(2)], [1 imageSize(1)]);
+        elseif l == mid
+            tform{mid} = projective2d(eye(3));
+            [xlim(mid,:), ylim(mid,:)] = outputLimits(tform{mid}, [1 imageSize(2)], [1 imageSize(1)]);
+        else
+            tform{l} = projective2d(H{l}');
+            [xlim(l,:), ylim(l,:)] = outputLimits(tform{l}, [1 imageSize(2)], [1 imageSize(1)]);
         end
-        tform{l} = projective2d(H{l}');
-        [xlim(l,:), ylim(l,:)] = outputLimits(tform{l}, [1 imageSize(2)], [1 imageSize(1)]);
+
     end
-    xMAX = size(im{1}, 1) + size(im{2}, 1) + size(im{3}, 1);
-    yMAX = size(im{1}, 2) + size(im{2}, 2) + size(im{3}, 2);
     xmin = min([1; xlim(:)]);
     ymin = min([1; ylim(:)]);
     xmax = max([imageSize(2); xlim(:)]);
@@ -87,13 +90,13 @@ for i = 1:m
     
     width = round(xmax - xmin);
     height = round(ymax - ymin);
-    if width > xMAX
-        width  = xMAX;
-    end
-    if height > yMAX
-        height  = xMAX;
-    end
-    
+%     if width > xMAX
+%         width  = xMAX;
+%     end
+%     if height > yMAX
+%         height  = xMAX;
+%     end
+%     
     
     % Initialize the final panorama as an array of zeros
     panorama = zeros([height width 3], 'like', im{1});

@@ -14,7 +14,7 @@ function [H, inlier_ind] = ransac_est_homography(x1, y1, x2, y2, thresh)
 % is an inlier or not. Denote inlier using 1 and 0 for outlier
 
 % Set the RANSAC constants
-nRANSAC = 1000;
+nRANSAC = 2000;
 e = thresh; % Pixels
 % min_inliers = 10;
 
