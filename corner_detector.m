@@ -10,7 +10,7 @@ function [cimg] = corner_detector(img)
 img_gray = rgb2gray(img);
 
 % Find the corner points
-cimg = detectHarrisFeatures(img_gray, 'MinQuality', 0.001,'FilterSize', 9);
+cimg = detectHarrisFeatures(img_gray);
 
 % Create HxW matrix 
 [H,W] = size(img_gray);

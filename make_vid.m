@@ -4,11 +4,11 @@ function make_vid(F, fname)
 try
     % VideoWriter based video creation
     h_avi = VideoWriter(fname, 'Uncompressed AVI');
-    h_avi.FrameRate = 10;
+    h_avi.FrameRate = 30;
     h_avi.open();
 catch
     % Fallback deprecated avifile based video creation
-    h_avi = avifile(fname,'fps',10);
+    h_avi = avifile(fname,'fps',30);
 end
 
 figure(3);

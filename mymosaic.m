@@ -53,9 +53,9 @@ for i = 1:size(img_input,1)
             idx = m(m ~= -1);
             p2 = [x2(idx) y2(idx)];
             if (j == mid)
-                [H{j-1}, inlier_ind] = ransac_est_homography(p2(:,1),p2(:,2),p1(:,1),p1(:,2), 0.8);
+                [H{j-1}, inlier_ind] = ransac_est_homography(p2(:,1),p2(:,2),p1(:,1),p1(:,2), 0.5);
             else
-                [H{j-1}, inlier_ind] = ransac_est_homography(p1(:,1),p1(:,2),p2(:,1),p2(:,2), 0.8);
+                [H{j-1}, inlier_ind] = ransac_est_homography(p1(:,1),p1(:,2),p2(:,1),p2(:,2), 0.5);
             end
             H{j - 1} = H{j-1} / H{j-1}(3,3);
         end
